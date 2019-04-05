@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
-    <PackageReference Include="Refit" Version="4.6.58" />
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
+    <PackageReference Include="Refit" Version="4.6.99" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
