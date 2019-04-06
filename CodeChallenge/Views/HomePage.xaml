@@ -2,13 +2,22 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:views="clr-namespace:CodeChallenge.Views"
     x:Class="CodeChallenge.Views.HomePage"
     Visual= "Material"
     Title="CineLovers"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>
+        <StackLayout 
+            Padding="10,5,0,5" 
+            BackgroundColor="#cccccc"
+            VerticalOptions="Start">
+            <Label Text="Upcoming Movies" />
+            <Label Text="{Binding HeaderSubTitle}" FontSize="Small"/>
+        </StackLayout>
         <ListView
+            VerticalOptions="Fill"
             ItemsSource="{Binding Movies}"
             CachingStrategy="RecycleElement"
             HasUnevenRows="true"
@@ -16,12 +25,29 @@
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
             SeparatorVisibility="None"
-            ItemSelected="Handle_ItemSelected">
+            ItemSelected="Handle_ItemSelected"
+            ItemAppearing="Handle_ItemAppearing">
+             <ListView.Footer> 
+                    <ActivityIndicator IsRunning="{Binding Loading}" 
+                                       d:IsRunning="true"
+                                       HeightRequest="50"
+                                       WidthRequest="50"
+                                       />
+            </ListView.Footer>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <views:MovieItemView />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+          <StackLayout VerticalOptions="End"
+                       Padding="10,5,0,5"
+                       Orientation="Horizontal" 
+                       BackgroundColor="#cccccc">
+            <Label Text="{Binding FooterTitle}"/>
+                  
+          </StackLayout>
+    
     </StackLayout>
 </ContentPage>
