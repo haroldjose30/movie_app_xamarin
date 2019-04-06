@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MovieItemViewModel.cs" company="ArcTouch LLC">
+// <copyright file="MovieDetailViewModel.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,63 +11,47 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the MovieItemViewModel type.
+//   Defines the MovieDetailViewModel type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using CodeChallenge.Models;
-using Xamarin.Forms;
+using CodeChallenge.Services;
 
 namespace CodeChallenge.ViewModels
 {
-    public class MovieItemViewModel : INotifyPropertyChanged
+
+    public class MovieDetailPageViewModel : INotifyPropertyChanged
     {
-        public MovieItemViewModel(Movie movie)
+        private string posterPath;
+        private string backdropPath;
+
+        public MovieDetailPageViewModel(Movie movie)
         {
-            this.movie = movie;
             Title = movie.Title;
+            Overview = movie.Overview;
             PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
+            BackdropPath = Utils.MovieImageUrlBuilder.BuildBackdropUrl(movie.BackdropPath);
             ReleaseDate = movie.ReleaseDate;
             Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
-
-         }
-
-        public readonly Movie movie;
-        private string posterPath;
-
+        }
 
         public string Title { get; set; }
-
+        public string Overview { get; set; }
         public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
+
+        public string BackdropPath { get => this.backdropPath; set => SetProperty(ref this.backdropPath, value); }
 
         public DateTimeOffset ReleaseDate { get; set; }
 
         public string Genres { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-  
-        public Command TapCommand
-        {
-            get
-            {
-                return new Command(() => onTappedCommand());
-            }
-        }
-
-
-        private void onTappedCommand()
-        {
-            //todo: show MovieDetailPage
-            Debug.WriteLine("onTappedCommand:" + movie.Title);
-        }
 
         private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {

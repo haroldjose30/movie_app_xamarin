@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AppDelegate.cs" company="ArcTouch LLC">
+// <copyright file="Movie.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,29 +11,30 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the AppDelegate type.
+//   Defines the Movie type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
 
-using Foundation;
-using UIKit;
-
-namespace CodeChallenge.iOS
+namespace CodeChallenge.Models
 {
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public class Movie
     {
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-        {
-            Xamarin.Calabash.Start();
-            global::Xamarin.Forms.Forms.Init();
+        public int Id { get; set; }
 
-            //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init();
+        public string BackdropPath { get; set; }
 
-            LoadApplication(new App());
+        public List<int> GenreIds { get; set; }
 
-            return base.FinishedLaunching(app, options);
-        }
+        public List<Genre> Genres { get; set; }
+
+        public string Overview { get; set; }
+
+        public string PosterPath { get; set; }
+
+        public DateTimeOffset ReleaseDate { get; set; }
+
+        public string Title { get; set; }
     }
 }

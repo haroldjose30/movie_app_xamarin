@@ -15,6 +15,9 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics;
+using CodeChallenge.Models;
+using CodeChallenge.ViewModels;
 using Xamarin.Forms;
 
 namespace CodeChallenge.Views
@@ -24,6 +27,11 @@ namespace CodeChallenge.Views
         public MovieItemView()
         {
             InitializeComponent();
+        }
+
+        void Handle_Tapped(object sender, System.EventArgs e)
+        {
+           
         }
     }
 }

@@ -19,6 +19,7 @@
 using System.Threading.Tasks;
 using CodeChallenge.Common;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Responses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Refit;

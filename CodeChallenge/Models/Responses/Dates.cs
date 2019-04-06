@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AppDelegate.cs" company="ArcTouch LLC">
+// <copyright file="Dates.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,29 +11,17 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the AppDelegate type.
+//   Defines the Dates type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
-
-using Foundation;
-using UIKit;
-
-namespace CodeChallenge.iOS
+using System;
+namespace CodeChallenge.Models.Responses
 {
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public class Dates
     {
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-        {
-            Xamarin.Calabash.Start();
-            global::Xamarin.Forms.Forms.Init();
+        public DateTimeOffset Maximum { get; set; }
 
-            //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init();
-
-            LoadApplication(new App());
-
-            return base.FinishedLaunching(app, options);
-        }
+        public DateTimeOffset Minimum { get; set; }
     }
+
 }

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITmdbApi.cs" company="ArcTouch LLC">
+// <copyright file="MovieDetailPage.xaml.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,26 +11,25 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the ITmdbApi type.
+//   Defines the MovieDetailPage.xaml type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
-
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 using CodeChallenge.Models;
-using CodeChallenge.Models.Responses;
-using Refit;
+using CodeChallenge.ViewModels;
+using Xamarin.Forms;
 
-namespace CodeChallenge.Services
+namespace CodeChallenge.Views
 {
-    public interface ITmdbApi
+    public partial class MovieDetailPage : ContentPage
     {
-        [Get("/genre/movie/list?api_key={apiKey}&language={language}")]
-        Task<GenreResponse> GetGenres(string apiKey, string language);
-
-        [Get("/movie/upcoming?api_key={apiKey}&language={language}&page={page}&region={region}")]
-        Task<UpcomingMoviesResponse> UpcomingMovies(string apiKey, string language, int page, string region);
-
-        [Get("/movie/{id}?api_key={apiKey}&language={language}")]
-        Task<Movie> GetMovie(string apiKey, string language, [AliasAs("id")]int movieId);
+        private MovieDetailPageViewModel movieDetailViewModel;
+        public MovieDetailPage(Movie movie)
+        {
+            InitializeComponent();
+            this.movieDetailViewModel = new MovieDetailPageViewModel(movie);
+            BindingContext = this.movieDetailViewModel;
+        }
     }
 }

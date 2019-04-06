@@ -15,13 +15,18 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Responses;
 using CodeChallenge.Services;
+using Refit;
+using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
@@ -46,14 +51,17 @@ namespace CodeChallenge.ViewModels
 
         public async Task OnAppearing()
         {
-            UpcomingMoviesResponse upcomingMoviesResponse = await this.movieService.UpcomingMovies(1);
-            foreach (var movie in upcomingMoviesResponse.Results)
-            {
-                Movies.Add(ToMovieItemViewModel(movie));
-            }
+
+                UpcomingMoviesResponse upcomingMoviesResponse = await this.movieService.UpcomingMovies(1);
+                foreach (var movie in upcomingMoviesResponse.Results)
+                {
+                    Movies.Add(ToMovieItemViewModel(movie));
+                }
         }
 
+
         public Task OnDisappearing() => Task.CompletedTask;
+
 
         public MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(result);
 

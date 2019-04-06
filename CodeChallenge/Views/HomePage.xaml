@@ -4,16 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:CodeChallenge.Views"
     x:Class="CodeChallenge.Views.HomePage"
-    Title="Code Challenge"
+    Visual= "Material"
+    Title="CineLovers"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>
         <ListView
             ItemsSource="{Binding Movies}"
+            CachingStrategy="RecycleElement"
             HasUnevenRows="true"
-            SelectionMode="None"
+            SelectionMode="Single"
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
-            SeparatorVisibility="None">
+            SeparatorVisibility="None"
+            ItemSelected="Handle_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <views:MovieItemView />

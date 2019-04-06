@@ -15,6 +15,9 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics;
+using System.Threading.Tasks;
+using CodeChallenge.Models;
 using CodeChallenge.Services;
 using CodeChallenge.ViewModels;
 using Xamarin.Forms;
@@ -48,6 +51,19 @@ namespace CodeChallenge.Views
             if (BindingContext is HomePageViewModel viewModel)
             {
                 await viewModel.OnDisappearing();
+            }
+        }
+
+        void Handle_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+        {
+            if (BindingContext is HomePageViewModel viewModel)
+            {
+
+                if (e.SelectedItem is MovieItemViewModel movieItemViewModel)
+                {
+                    //todo: convert to MVVM - show MovieDetailPage
+                    Navigation.PushAsync(new MovieDetailPage(movieItemViewModel.movie));
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ using Android.OS;
 
 namespace CodeChallenge.Droid
 {
-    [Activity(Label = "Code Challenge", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "CineLovers", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,6 +36,11 @@ namespace CodeChallenge.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            //initialize Material design template from nuget
+            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+
+
             LoadApplication(new App());
         }
     }

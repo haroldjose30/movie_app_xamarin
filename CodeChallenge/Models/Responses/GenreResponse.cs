@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AppDelegate.cs" company="ArcTouch LLC">
+// <copyright file="GenreResponse.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,29 +11,16 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the AppDelegate type.
+//   Defines the GenreResponse type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
 
-using Foundation;
-using UIKit;
-
-namespace CodeChallenge.iOS
+namespace CodeChallenge.Models.Responses
 {
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public class GenreResponse
     {
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-        {
-            Xamarin.Calabash.Start();
-            global::Xamarin.Forms.Forms.Init();
-
-            //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init();
-
-            LoadApplication(new App());
-
-            return base.FinishedLaunching(app, options);
-        }
+        public List<Genre> Genres { get; set; }
     }
 }
