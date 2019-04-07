@@ -19,12 +19,15 @@
             <Label Text="{Binding HeaderSubTitle}" FontSize="Small"/>
         </StackLayout>
         
+       
+        
         <CustomControls:InfiniteScrollListView 
             LoadCommand="{Binding LoadCommand}"
             VerticalOptions="Fill"
             ItemsSource="{Binding Movies}"
-            HasUnevenRows="true"
-            SelectionMode="Single"
+            HasUnevenRows="false"
+            SelectionMode="None"
+            RowHeight="100"
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
             SeparatorVisibility="None">

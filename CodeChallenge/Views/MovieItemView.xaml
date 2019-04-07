@@ -6,7 +6,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="CodeChallenge.Views.MovieItemView">
      <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
-           HasShadow="{x:OnPlatform Android=true, iOS=false}"
+           HasShadow="{x:OnPlatform Android=true, iOS=true}"
            BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
            Padding="{x:OnPlatform Android=0, iOS=6}"
            Margin="4"

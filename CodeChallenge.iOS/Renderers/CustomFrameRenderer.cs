@@ -15,24 +15,24 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using Android.Content;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(Frame), typeof(CodeChallenge.Droid.Renderers.CustomFrameRenderer))]
-namespace CodeChallenge.Droid.Renderers
+
+using System.ComponentModel;
+using CoreGraphics;
+using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
+
+[assembly: ExportRenderer(typeof(Frame), typeof(CodeChallenge.iOS.Renderers.CustomFrameRenderer))]
+namespace CodeChallenge.iOS.Renderers
 {
-    public class CustomFrameRenderer : Xamarin.Forms.Platform.Android.AppCompat.FrameRenderer
+    public class CustomFrameRenderer: FrameRenderer
     {
-        public CustomFrameRenderer(Context context) : base(context)
-        {
-        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-             if (e.NewElement != null && e.NewElement.HasShadow)
+            if (e.NewElement != null && e.NewElement.HasShadow)
             {
                 UpdateElevation();
             }
@@ -41,17 +41,33 @@ namespace CodeChallenge.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == "Elevation" || e.PropertyName == "CardElevation")
+            if (e.PropertyName == "ShadowRadius")
             {
                 UpdateElevation();
             }
         }
 
 
+
+        public override void Draw(CGRect rect)
+        {
+            base.Draw(rect);
+            UpdateElevation();
+        }
+
         private void UpdateElevation()
         {
-            Control.Elevation = 5;
-            Control.CardElevation = 5;
+            //this code was base on below website reference
+            //reference: https://alexdunn.org/2017/05/30/xamarin-tips-adding-dynamic-elevation-to-your-xamarin-forms-buttons/
+
+            Layer.ShadowRadius = 5.0f;
+            Layer.ShadowColor = UIColor.Gray.CGColor;
+            Layer.ShadowOffset = new CGSize(2, 2);
+            Layer.ShadowOpacity = 0.80f;
+            Layer.ShadowPath = UIBezierPath.FromRect(Layer.Bounds).CGPath;
+            Layer.MasksToBounds = false;
         }
+
+
     }
 }

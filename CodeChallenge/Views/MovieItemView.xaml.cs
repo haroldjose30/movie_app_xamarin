@@ -30,8 +30,12 @@ namespace CodeChallenge.Views
         {
             InitializeComponent();
 
-            //todo: i don't know if this code is 100% ok, but de reference website return only one image to view
+            //todo: I don't know if this code is the better aproach to solve this problem, 
+            //but the website reference return only one image to view
             image = this.FindByName<Image>("ImagePosterPath");
+
+
+            //above is the website reference example
             //image = new Image();
             //View = image;
         }

@@ -79,8 +79,8 @@ namespace CodeChallenge.ViewModels
         }
 
 
-        DateTimeOffset _MinimumReleaseDate;
-        public DateTimeOffset MinimumReleaseDate
+        DateTimeOffset? _MinimumReleaseDate;
+        public DateTimeOffset? MinimumReleaseDate
         {
             get => this._MinimumReleaseDate;
             private set
@@ -91,8 +91,8 @@ namespace CodeChallenge.ViewModels
             }
         }
 
-        DateTimeOffset _MaximumReleaseDate;
-        public DateTimeOffset MaximumReleaseDate
+        DateTimeOffset? _MaximumReleaseDate;
+        public DateTimeOffset? MaximumReleaseDate
         {
             get => this._MaximumReleaseDate;
             private set
@@ -120,8 +120,14 @@ namespace CodeChallenge.ViewModels
 
         public string HeaderSubTitle
         {
-            //todo: get date format from cultural/region device
-            get => $"From {MinimumReleaseDate.ToString("dd/MM")} to {MaximumReleaseDate.ToString("dd/MM")}";
+            get
+            {
+                if (MinimumReleaseDate == null || MaximumReleaseDate == null)
+                    return "";
+                else //todo: get date format from cultural/region device ou a Humanize style
+                    return $"From {MinimumReleaseDate?.ToString("dd/MM")} to {MaximumReleaseDate?.ToString("dd/MM")}";
+
+            }
         }
         private readonly string HeaderSubTitlePropertyName = "HeaderSubTitle";
 

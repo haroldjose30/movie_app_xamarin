@@ -36,6 +36,10 @@ namespace CodeChallenge.Services
 
         public Task<Movie> GetMovie(int movieId) => GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
 
+
+
+
+        //todo: Single responsability principle - Não é responsabilidade do Service saber de nada que não seja dele, apenas o getgenres, upcomingmovies e getmovie
         private ITmdbApi GetApi()
         {
             /*obsolete  Warning resolved

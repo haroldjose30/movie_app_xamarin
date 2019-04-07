@@ -29,10 +29,7 @@ namespace CodeChallenge.iOS
             global::Xamarin.Forms.Forms.Init();
 
             //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init();
-
-            //Setup FFImageLoading component
-            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            //global::Xamarin.Forms.FormsMaterial.Init();
 
             LoadApplication(new App());
 

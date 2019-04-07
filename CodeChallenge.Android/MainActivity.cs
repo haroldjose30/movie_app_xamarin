@@ -43,10 +43,8 @@ namespace CodeChallenge.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            //global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
 
-            //setup FFImageLoading component
-            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
 
 
             LoadApplication(new App());
