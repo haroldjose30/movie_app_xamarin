@@ -3,13 +3,15 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:CodeChallenge.Effects"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="CodeChallenge.Views.MovieItemView">
      <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
            HasShadow="{x:OnPlatform Android=true, iOS=false}"
            BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
            Padding="{x:OnPlatform Android=0, iOS=6}"
-           Margin="4">
-        <Grid RowSpacing="0">
+           Margin="4"
+           x:Name="frame">
+        <Grid RowSpacing="0" x:Name="grid">
             
              <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TapCommand}" />
@@ -24,11 +26,17 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            
+           
+           
             <Image
+                x:Name="ImagePosterPath"
                 Grid.RowSpan="3"
                 Aspect="AspectFit"
-                Source="{Binding PosterPath}">
+                Source="icon.png">
             </Image>
+
+            
             <Label
                 Grid.Row="0"
                 Grid.Column="1"

@@ -96,6 +96,9 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\screen.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\screen.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\screen.png" />
+    <AndroidResource Include="Resources\drawable\error.png" />
+    <AndroidResource Include="Resources\drawable\loading.jpg" />
+    <AndroidResource Include="Resources\drawable\loadingAnimation.gif" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

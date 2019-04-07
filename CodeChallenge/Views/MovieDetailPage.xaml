@@ -10,9 +10,15 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Image
-                    Aspect="AspectFit"
-                    Source="{Binding PosterPath}"/>
+                <Image 
+                    Aspect="AspectFill"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    Source="{Binding PosterPath}"
+                    >
+                </Image>               
+                
+                
                 <Label
                     FontSize="30"
                     FontAttributes="Bold"
@@ -43,9 +49,17 @@
                     TextColor="Black"
                     VerticalTextAlignment="End"
                     Text="{Binding Overview}"/>
-                <Image
-                    Aspect="AspectFit"
-                    Source="{Binding BackdropPath}"/>
+              
+                <Image 
+                    Aspect="AspectFill"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    Source="{Binding BackdropPath}"
+                    >
+                </Image>                 
+                
+             
+                
             </StackLayout>    
         </ScrollView>
     </ContentPage.Content>

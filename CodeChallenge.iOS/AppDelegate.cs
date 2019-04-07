@@ -31,6 +31,9 @@ namespace CodeChallenge.iOS
             //initialize Material design template from nuget
             global::Xamarin.Forms.FormsMaterial.Init();
 
+            //Setup FFImageLoading component
+            //FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
