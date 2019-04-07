@@ -36,6 +36,13 @@ namespace CodeChallenge.ViewModels
 
         #region Properties Region
 
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
+        }
+
         private string posterPath;
         private string backdropPath;
         public string Overview { get; set; }

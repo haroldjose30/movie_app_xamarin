@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainActivity.cs" company="ArcTouch LLC">
+// <copyright file="SplashActivity.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,42 +11,37 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the MainActivity type.
+//   Defines the SplashActivity type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 using Android.App;
-using Android.Content.PM;
+using Android.Content;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.OS;
 
 namespace CodeChallenge.Droid
 {
     [Activity(
-        Label = "CineLovers", 
-        Icon = "@mipmap/icon", 
-        Theme = "@style/MainTheme", 
-        MainLauncher = false,
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+        Theme = "@style/Theme.Splash",
+        Icon = "@mipmap/icon",
+        MainLauncher = true,
+        NoHistory = true)]
+    public class SplashActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
-
             base.OnCreate(savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
-
-
-            LoadApplication(new App());
+            // Create your application here
+            StartActivity(typeof(MainActivity));
         }
     }
 }

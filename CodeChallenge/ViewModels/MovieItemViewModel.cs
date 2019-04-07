@@ -37,6 +37,13 @@ namespace CodeChallenge.ViewModels
 
         #region Properties Region
 
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
+        }
+
         private Movie _movie;
         public Movie movie { get => _movie; }
         private string posterPath;
