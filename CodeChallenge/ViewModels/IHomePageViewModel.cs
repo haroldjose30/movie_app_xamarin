@@ -9,7 +9,7 @@ namespace CodeChallenge.ViewModels
 {
     public interface IHomePageViewModel: IBaseViewModel
     {
-        ObservableCollection<MovieItemViewModel> Movies { get; set; }
+        ObservableCollection<IMovieItemViewModel> Movies { get; set; }
         int CurrentlyPage { get; }
         int TotalPages { get; }
         DateTimeOffset MinimumReleaseDate { get; }
@@ -19,7 +19,7 @@ namespace CodeChallenge.ViewModels
         string FooterTitle { get; }
 
         void GetNextPageAsync();
-        MovieItemViewModel ToMovieItemViewModel(Movie result);
+        IMovieItemViewModel ToMovieItemViewModel(Movie result);
         Task ItemSelected(IMovieItemViewModel movieItemViewModel);
     }
 }

@@ -7,7 +7,7 @@ namespace CodeChallenge.ViewModels
 {
     public interface IMovieItemViewModel: IBaseViewModel
     {
-        Movie movie { get; }
+        Movie movie { get; set; }
         string PosterPath { get; set; }
         DateTimeOffset ReleaseDate { get; set; }
         string Genres { get; set; }

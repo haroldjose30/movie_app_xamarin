@@ -35,16 +35,15 @@ namespace CodeChallenge.ViewModels
         public HomePageViewModel(IMovieService movieService)
         {
             this.movieService = movieService;
-            //todo: change to interface and not Concrect view model
-            this.movies = new ObservableCollection<MovieItemViewModel>();
+            this.movies = new ObservableCollection<IMovieItemViewModel>();
         }
 
         #region Properties region
 
         private readonly IMovieService movieService;
-        private ObservableCollection<MovieItemViewModel> movies;
+        private ObservableCollection<IMovieItemViewModel> movies;
 
-        public ObservableCollection<MovieItemViewModel> Movies
+        public ObservableCollection<IMovieItemViewModel> Movies
         {
             get => this.movies;
             set => SetProperty(ref this.movies, value);
@@ -174,7 +173,7 @@ namespace CodeChallenge.ViewModels
                 return;
 
             //get next page
-            if (await GetUpcomingMovies(CurrentlyPage+1))
+            if (await GetUpcomingMovies(CurrentlyPage + 1))
                 //increase page counter
                 CurrentlyPage++;
         }
@@ -201,7 +200,7 @@ namespace CodeChallenge.ViewModels
 
 
                 //verify if exists new movie
-                if (upcomingMoviesResponse != null && upcomingMoviesResponse.Results.Count>0)
+                if (upcomingMoviesResponse != null && upcomingMoviesResponse.Results.Count > 0)
                 {
                     //update properties on view model who needed be updates on view
                     TotalPages = upcomingMoviesResponse.TotalPages;
@@ -228,7 +227,10 @@ namespace CodeChallenge.ViewModels
 
         }
 
-        public MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(result);
+        public IMovieItemViewModel ToMovieItemViewModel(Movie result)
+        {
+            return new MovieItemViewModel(result); 
+        }
 
         public async Task ItemSelected(IMovieItemViewModel movieItemViewModel)
         {

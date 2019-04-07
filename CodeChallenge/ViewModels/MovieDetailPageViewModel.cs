@@ -22,7 +22,7 @@ using CodeChallenge.ViewModels.Base;
 namespace CodeChallenge.ViewModels
 {
 
-    public class MovieDetailPageViewModel : BaseViewModel
+    public class MovieDetailPageViewModel : BaseViewModel, IMovieDetailPageViewModel
     {
         public MovieDetailPageViewModel(Movie movie)
         {

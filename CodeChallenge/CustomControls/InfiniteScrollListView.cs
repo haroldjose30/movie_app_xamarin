@@ -28,7 +28,9 @@ namespace CodeChallenge.CustomControls
     /// </summary>
     public class InfiniteScrollListView : ListView
     {
-        //public static readonly BindableProperty LoadCommandProperty = BindableProperty.Create<InfiniteScrollListView,ICommand>(bp => bp.LoadCommand, default(ICommand));
+        ///obsolete  Warning resolved
+        /// public static readonly BindableProperty LoadCommandProperty = BindableProperty.Create<InfiniteScrollListView,ICommand>(bp => bp.LoadCommand, default(ICommand));
+
         public static readonly BindableProperty LoadCommandProperty = BindableProperty.Create(nameof(LoadCommand), typeof(ICommand), typeof(InfiniteScrollListView));
 
         public ICommand LoadCommand

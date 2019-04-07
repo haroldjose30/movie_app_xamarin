@@ -23,17 +23,13 @@ using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
+
     public class MovieItemViewModel : BaseViewModel, IMovieItemViewModel
     {
         public MovieItemViewModel(Movie movie)
         {
-            this._movie = movie;
-            Title = movie.Title;
-            PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
-            ReleaseDate = movie.ReleaseDate;
-            Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+            this.movie = movie;
         }
-
 
         #region Properties Region
 
@@ -45,9 +41,27 @@ namespace CodeChallenge.ViewModels
         }
 
         private Movie _movie;
-        public Movie movie { get => _movie; }
-        private string posterPath;
-        public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
+
+        public Movie movie
+        {
+            get { return _movie; }
+            set
+            {
+                SetProperty(ref _movie, value);
+
+                if (_movie != null)
+                {
+                    this.Title = _movie.Title;
+                    this.PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(_movie.PosterPath);
+                    this.ReleaseDate = _movie.ReleaseDate;
+                    this.Genres = string.Join(", ", _movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+                }
+            }
+        }
+
+
+        private string _posterPath;
+        public string PosterPath { get => this._posterPath; set => SetProperty(ref this._posterPath, value); }
         public DateTimeOffset ReleaseDate { get; set; }
         public string Genres { get; set; }
 

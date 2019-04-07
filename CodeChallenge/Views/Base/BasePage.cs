@@ -39,9 +39,6 @@ namespace CodeChallenge.Views.Base
             if (ViewModel == null) 
                 return;
 
-            //Title = ViewModel.Title;
-            //ViewModel.PropertyChanged += TitlePropertyChanged;
-
             await ViewModel.OnAppearing();
         }
 
@@ -54,17 +51,9 @@ namespace CodeChallenge.Views.Base
             if (ViewModel == null)
                 return;
 
-            //ViewModel.PropertyChanged -= TitlePropertyChanged;
-
+   
             await ViewModel.OnAppearing();
         }
-        /*
-        private void TitlePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(ViewModel.Title)) return;
 
-            Title = ViewModel.Title;
-        }
-        */
     }
 }
