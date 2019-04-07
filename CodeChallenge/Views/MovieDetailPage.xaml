@@ -6,59 +6,95 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     x:Class="CodeChallenge.Views.MovieDetailPage"
     Visual= "Material"
+    Icon="icon.png"
+    Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}"
     Title="{Binding Title}">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <Image 
-                    Aspect="AspectFill"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    Source="{Binding PosterPath}"
-                    >
-                </Image>               
+    <ScrollView>
+            
+        <StackLayout >
                 
-                
-                <Label
-                    FontSize="30"
-                    FontAttributes="Bold"
-                    TextColor="Black"
-                    HorizontalTextAlignment="Start"
-                    Text="{Binding Title}"/>
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    FontSize="Small"
-                    TextColor="Black"
-                    HorizontalTextAlignment="Start"
-                    Text="{Binding Genres}"/>
-                 <Label
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    FontSize="Micro"
-                    FontAttributes="Italic"
-                    TextColor="Black"
-                    VerticalTextAlignment="End"
-                    Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"
-                    />
-                <Label
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    FontSize="Micro"
-                    FontAttributes="Italic"
-                    TextColor="Black"
-                    VerticalTextAlignment="End"
-                    Text="{Binding Overview}"/>
+                    
               
-                <Image 
-                    Aspect="AspectFill"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    Source="{Binding BackdropPath}"
-                    >
-                </Image>                 
+            <Image 
+                Aspect="AspectFill"
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="FillAndExpand"
+                Source="{Binding BackdropPath}"
+                    
+                >
+            </Image>                 
                 
              
+        
+             <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
+                       HasShadow="{x:OnPlatform Android=true, iOS=true}"
+                       BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
+                       Padding="{x:OnPlatform Android=0, iOS=6}"
+                       Margin="4"
+                       x:Name="frame">
+                    <Grid RowSpacing="0" x:Name="grid">
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        
+                        <Image 
+                            Grid.RowSpan="3"
+                            Aspect="Fill"
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            Source="{Binding PosterPath}"
+                            HeightRequest="200"
+                            WidthRequest="150"
+                            >
+                        </Image>               
+                        
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="Medium"
+                            TextColor="Black"
+                            FontAttributes="Bold"
+                            Text="{Binding Genres}">
+                        </Label>
+                        
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            FontAttributes="Italic"
+                            TextColor="Black"
+                            VerticalTextAlignment="End"
+                            Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                        
+                        
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            FontSize="Small"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            VerticalTextAlignment="Start"
+                            Text="{Binding Overview}"/>
+                        
+                    </Grid>
+                </Frame>        
+        
+        
+        
+       
+                
+              
+            
                 
             </StackLayout>    
         </ScrollView>

@@ -8,6 +8,7 @@
     xmlns:CustomControls="clr-namespace:CodeChallenge.CustomControls;assembly=CodeChallenge"
     x:Class="CodeChallenge.Views.MovieSearchPage"
     Visual= "Material"
+    Icon="icon"
     Title="{Binding SearchText}"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>

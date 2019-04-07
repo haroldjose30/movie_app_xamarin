@@ -8,9 +8,18 @@
     xmlns:CustomControls="clr-namespace:CodeChallenge.CustomControls;assembly=CodeChallenge"
     x:Class="CodeChallenge.Views.HomePage"
     Visual= "Material"
-    Title="CineLovers"
+    Icon="icon"
+    Title="CINELOVERS"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>
+          <SearchBar 
+                    x:Name="searchBar"
+                    Placeholder="What is your favorite movie?" 
+                    SearchCommand="{Binding SearchCommand}" 
+                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                    BackgroundColor="Transparent"
+                    Text="{Binding SearchText}"/>
+        
         <StackLayout 
             Padding="10,5,0,5" 
             VerticalOptions="Start">
@@ -18,13 +27,7 @@
             <Label Text="{Binding HeaderSubTitle}" FontSize="Small"/>
         </StackLayout>
        
-        <SearchBar 
-                    x:Name="searchBar"
-                    Placeholder="What is your favorite movie?" 
-                    SearchCommand="{Binding SearchCommand}" 
-                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
-                    BackgroundColor="Transparent"
-                    Text="{Binding SearchText}"/>
+      
         
         <CustomControls:InfiniteScrollListView 
             LoadCommand="{Binding LoadCommand}"
