@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HomePageViewModel.cs" company="ArcTouch LLC">
+// <copyright file="MovieSearchPageViewModel.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,7 +11,7 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the HomePageViewModel type.
+//   Defines the MovieSearchPageViewModel type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
@@ -20,21 +20,19 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CodeChallenge.Models;
+using CodeChallenge.Models.Responses;
 using CodeChallenge.Services;
 using CodeChallenge.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
-    public class HomePageViewModel : BaseViewModel, IHomePageViewModel
+    public class MovieSearchPageViewModel : BaseViewModel, IMovieSearchPageViewModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:CodeChallenge.ViewModels.HomePageViewModel"/> class.
-        /// </summary>
-        /// <param name="movieService">Movie service.</param>
-        public HomePageViewModel(IMovieService movieService)
+        public MovieSearchPageViewModel(string query)
         {
-            this.movieService = movieService;
+            this.SearchText = query;
+            this.movieService = DependencyService.Get<IMovieService>();
             this._movies = new ObservableCollection<IMovieItemViewModel>();
         }
 
@@ -59,10 +57,8 @@ namespace CodeChallenge.ViewModels
             set
             {
                 SetProperty(ref this._SearchText, value);
-                //todo: create link filter from the current list
             }
         }
-
 
         /// <summary>
         /// Page Counter
@@ -91,31 +87,6 @@ namespace CodeChallenge.ViewModels
         }
 
 
-        string _MinimumReleaseDate;
-        public string MinimumReleaseDate
-        {
-            get => this._MinimumReleaseDate;
-            set
-            {
-                SetProperty(ref this._MinimumReleaseDate, value);
-                //notify to update view to HeaderSubTitle property too
-                OnPropertyChanged(HeaderSubTitlePropertyName);
-            }
-        }
-
-        string _MaximumReleaseDate;
-        public string MaximumReleaseDate
-        {
-            get => this._MaximumReleaseDate;
-            set
-            {
-                SetProperty(ref this._MaximumReleaseDate, value);
-                //notify to update view to HeaderSubTitle property too
-                OnPropertyChanged(HeaderSubTitlePropertyName);
-            }
-        }
-
-
         /// <summary>
         /// to show indicator on the screen during de loading data
         /// </summary>
@@ -128,20 +99,6 @@ namespace CodeChallenge.ViewModels
                 SetProperty(ref this._Loading, value);
             }
         }
-
-
-        public string HeaderSubTitle
-        {
-            get
-            {
-                if (MinimumReleaseDate == null || MaximumReleaseDate == null)
-                    return string.Empty;
-                else //todo: get date format from cultural/region device ou a Humanize style
-                    return $"From {MinimumReleaseDate} to {MaximumReleaseDate}";
-
-            }
-        }
-        private readonly string HeaderSubTitlePropertyName = "HeaderSubTitle";
 
 
         /// <summary>
@@ -157,11 +114,12 @@ namespace CodeChallenge.ViewModels
 
 
 
-
         #endregion
 
 
         #region Methods/Commands Region
+
+        
 
         public override Task OnAppearing()
         {
@@ -184,12 +142,13 @@ namespace CodeChallenge.ViewModels
         /// </summary>
         public async void ExecuteNextPageRequest()
         {
+
             //verify if all pages was loaded
             if (CurrentlyPage > 0 && CurrentlyPage == TotalPages)
                 return;
 
-            //get next page from Upcoming
-            if (await ExecuteUpcomingMoviesRequest(CurrentlyPage + 1))
+            //get next page from Search
+            if (await ExecuteSearchMoviesRequest(SearchText, CurrentlyPage + 1))
                 //increase page counter
                 CurrentlyPage++;
         }
@@ -198,7 +157,7 @@ namespace CodeChallenge.ViewModels
         /// Load movies from backend using movieservices
         /// </summary>
         /// <param name="page">pass number page is loaded</param>
-        private async Task<Boolean> ExecuteUpcomingMoviesRequest(int page)
+        private async Task<Boolean> ExecuteSearchMoviesRequest(string query, int page)
         {
             //todo: network improvements: verify if is connected on the internet
             //todo: network improvements: cache data and try retreave from cache first
@@ -212,23 +171,17 @@ namespace CodeChallenge.ViewModels
                 Loading = true;
 
                 //call back end
-                Models.Responses.UpcomingMoviesResponse upcomingMoviesResponse = await this.movieService.UpcomingMovies(page);
+                SearchMovieResponse searchMovieResponse = await this.movieService.SearchMovie(query, page);
 
 
                 //verify if exists new movie
-                if (upcomingMoviesResponse != null && upcomingMoviesResponse.Results.Count > 0)
+                if (searchMovieResponse != null && searchMovieResponse.Results.Count > 0)
                 {
                     //update properties on view model who needed be updates on view
-                    TotalPages = upcomingMoviesResponse.TotalPages;
-                    MinimumReleaseDate = upcomingMoviesResponse.Dates.Minimum;
-                    MaximumReleaseDate = upcomingMoviesResponse.Dates.Maximum;
-
-
-                    //if (newMovieList)
-                    //    Movies = 
+                    TotalPages = searchMovieResponse.TotalPages;
 
                     //add movies on the list
-                    foreach (var movie in upcomingMoviesResponse.Results)
+                    foreach (var movie in searchMovieResponse.Results)
                     {
                         Movies.Add(ToMovieItemViewModel(movie));
                     }
@@ -247,9 +200,12 @@ namespace CodeChallenge.ViewModels
 
         }
 
+
+
+
         public IMovieItemViewModel ToMovieItemViewModel(Movie result)
         {
-            return new MovieItemViewModel(result); 
+            return new MovieItemViewModel(result);
         }
 
         public async Task ItemSelected(IMovieItemViewModel movieItemViewModel)
@@ -264,37 +220,6 @@ namespace CodeChallenge.ViewModels
         /// <value>The load command.</value>
         public ICommand LoadCommand { get => new Command(() => ExecuteNextPageRequest()); }
 
-        /// <summary>
-        /// Command to Execute a call to backend to search the selected movie
-        /// </summary>
-        /// <value>The search command.</value>
-        public ICommand SearchCommand { get => new Command(SearchCommandExecute,SearchCommandCanExecute); }
-
-        /// <summary>
-        /// Execute SearchCommand only when not loading new data
-        /// </summary>
-        /// <returns><c>true</c>, if command can execute was searched, <c>false</c> otherwise.</returns>
-        /// <param name="arg">Argument.</param>
-        private bool SearchCommandCanExecute(object arg) => !Loading;
-
-        /// <summary>
-        /// Execute a call to backend to search the selected movie
-        /// </summary>
-        /// <param name="obj">Object.</param>
-        private async void SearchCommandExecute(object obj)
-        {
-            //Execute SearchCommand only when Text exists in Searchbar
-            //here i can use obj variable too if i want
-            if (SearchText != null && !string.IsNullOrWhiteSpace(SearchText))
-            {
-                //Call ViewLocator
-                await PushAsync<MovieSearchPageViewModel>(SearchText);
-                SearchText = "";
-
-            }
-        }
-
-       
 
 
         #endregion
@@ -304,5 +229,4 @@ namespace CodeChallenge.ViewModels
 
 
     }
-   
 }

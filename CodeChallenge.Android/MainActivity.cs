@@ -43,7 +43,7 @@ namespace CodeChallenge.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             //initialize Material design template from nuget
-            //global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
 
 
 

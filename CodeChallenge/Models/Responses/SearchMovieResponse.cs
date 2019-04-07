@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Result.cs" company="ArcTouch LLC">
+// <copyright file="SearchMovieResponse.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,7 +11,7 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the Result type.
+//   Defines the SearchMovieResponse type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
@@ -19,34 +19,11 @@ using System.Collections.Generic;
 
 namespace CodeChallenge.Models.Responses
 {
-    public class Result
+    public class SearchMovieResponse
     {
-        public int VoteCount { get; set; }
-
-        public int Id { get; set; }
-
-        public bool Video { get; set; }
-
-        public double VoteAverage { get; set; }
-
-        public string Title { get; set; }
-
-        public double Popularity { get; set; }
-
-        public string PosterPath { get; set; }
-
-        public string OriginalLanguage { get; set; }
-
-        public string OriginalTitle { get; set; }
-
-        public List<int> GenreIds { get; set; }
-
-        public string BackdropPath { get; set; }
-
-        public bool Adult { get; set; }
-
-        public string Overview { get; set; }
-
-        public DateTimeOffset ReleaseDate { get; set; }
+        public int Page { get; set; }
+        public int TotalResults { get; set; }
+        public int TotalPages { get; set; }
+        public List<Movie> Results { get; set; }
     }
 }

@@ -20,9 +20,6 @@ using System.Collections.Generic;
 
 namespace CodeChallenge.Models
 {
-
-
-
     public class Genre
     {
         public int Id { get; set; }

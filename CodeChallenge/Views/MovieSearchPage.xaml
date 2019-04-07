@@ -6,26 +6,11 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:views="clr-namespace:CodeChallenge.Views"
     xmlns:CustomControls="clr-namespace:CodeChallenge.CustomControls;assembly=CodeChallenge"
-    x:Class="CodeChallenge.Views.HomePage"
+    x:Class="CodeChallenge.Views.MovieSearchPage"
     Visual= "Material"
-    Title="CineLovers"
+    Title="{Binding SearchText}"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>
-        <StackLayout 
-            Padding="10,5,0,5" 
-            VerticalOptions="Start">
-            <Label Text="Upcoming Movies" />
-            <Label Text="{Binding HeaderSubTitle}" FontSize="Small"/>
-        </StackLayout>
-       
-        <SearchBar 
-                    x:Name="searchBar"
-                    Placeholder="What is your favorite movie?" 
-                    SearchCommand="{Binding SearchCommand}" 
-                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
-                    BackgroundColor="Transparent"
-                    Text="{Binding SearchText}"/>
-        
         <CustomControls:InfiniteScrollListView 
             LoadCommand="{Binding LoadCommand}"
             VerticalOptions="Fill"
@@ -40,10 +25,6 @@
             <x:Arguments>
                 <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
             </x:Arguments>
-            
-             <ListView.Header> 
-                
-            </ListView.Header>
             
             <ListView.Footer> 
                 <ActivityIndicator IsRunning="{Binding Loading}"/>

@@ -21,7 +21,6 @@ namespace CodeChallenge.Models.Responses
 {
     public class UpcomingMoviesResponse
     {
-        public List<Movie> Results { get; set; }
 
         public int Page { get; set; }
 
@@ -30,6 +29,9 @@ namespace CodeChallenge.Models.Responses
         public Dates Dates { get; set; }
 
         public int TotalPages { get; set; }
+
+        public List<Movie> Results { get; set; }
+
     }
 
 

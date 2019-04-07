@@ -9,7 +9,7 @@ namespace CodeChallenge.ViewModels
     {
         Movie movie { get; set; }
         string PosterPath { get; set; }
-        DateTimeOffset ReleaseDate { get; set; }
+        string ReleaseDate { get; set; }
         string Genres { get; set; }
         Command TapCommand { get; }
     }

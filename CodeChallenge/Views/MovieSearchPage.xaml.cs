@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AppDelegate.cs" company="ArcTouch LLC">
+// <copyright file="MovieSearchPage.xaml.cs" company="ArcTouch LLC">
 //   Copyright 2019 ArcTouch LLC.
 //   All rights reserved.
 //
@@ -11,29 +11,18 @@
 //   the license agreement.
 // </copyright>
 // <summary>
-//   Defines the AppDelegate type.
+//   Defines the MovieSearchPage.xaml type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
+using CodeChallenge.Views.Base;
 
-using Foundation;
-using UIKit;
-
-namespace CodeChallenge.iOS
+namespace CodeChallenge.Views
 {
-    [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class MovieSearchPage : BasePage
     {
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public MovieSearchPage()
         {
-            Xamarin.Calabash.Start();
-            global::Xamarin.Forms.Forms.Init();
-
-            //initialize Material design template from nuget
-            global::Xamarin.Forms.FormsMaterial.Init();
-
-            LoadApplication(new App());
-
-            return base.FinishedLaunching(app, options);
+            InitializeComponent();
         }
     }
 }

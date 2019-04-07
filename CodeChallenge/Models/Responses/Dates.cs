@@ -19,9 +19,9 @@ namespace CodeChallenge.Models.Responses
 {
     public class Dates
     {
-        public DateTimeOffset Maximum { get; set; }
+        public string Maximum { get; set; }
 
-        public DateTimeOffset Minimum { get; set; }
+        public string Minimum { get; set; }
     }
 
 }

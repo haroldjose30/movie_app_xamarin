@@ -16,13 +16,11 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeChallenge.Common;
 using CodeChallenge.Models;
 using CodeChallenge.Models.Responses;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Refit;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(CodeChallenge.Services.MovieService))]
@@ -30,39 +28,83 @@ namespace CodeChallenge.Services
 {
     public class MovieService : IMovieService
     {
-        public Task<GenreResponse> GetGenres() => GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE);
 
-        public Task<UpcomingMoviesResponse> UpcomingMovies(int page) => GetApi().UpcomingMovies(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
-
-        public Task<Movie> GetMovie(int movieId) => GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
-
+        //todo: To implementar SOLID aproach  - Single Responsability  is better segregate in another class the cache control
+        //List of Genres for caching data in memory
+        private static List<Genre> GenresCached { get; set; }
 
 
+        /// <summary>
+        /// return if Genres was cached
+        /// </summary>
+        /// <returns><c>true</c>, if is cached was genresed, <c>false</c> otherwise.</returns>
+        private bool GenresIsCached() => (GenresCached != null && GenresCached.Count > 0);
 
-        //todo: Single responsability principle - Não é responsabilidade do Service saber de nada que não seja dele, apenas o getgenres, upcomingmovies e getmovie
-        private ITmdbApi GetApi()
+
+        /// <summary>
+        /// Get the list of official genres for movies.
+        /// ref: https://developers.themoviedb.org/3/genres/get-movie-list
+        /// </summary>
+        /// <returns>The genres.</returns>
+        public async Task<List<Genre>> GetGenres()
         {
-            /*obsolete  Warning resolved
-                var jsonSerializerSettings = new JsonSerializerSettings
-                {
-                    ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
-                };
+            //return cached data to improve performance
+            if (GenresIsCached())
+                return GenresCached;
 
-                var refitSettings = new RefitSettings { JsonSerializerSettings = jsonSerializerSettings };
-            */
+            //Make request to get data
+            GenreResponse genreResponse = await TmdbApi.GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE);
+            GenresCached = genreResponse.Genres;
+
+            return GenresCached;
+        }
+
+        /// <summary>
+        /// Upcomings the movies.
+        /// Get a list of upcoming movies in theatres.This is a release type query that looks for all movies that have a release type of 2 or 3 within the specified date range.
+        /// You can optionally specify a region prameter which will narrow the search to only look for theatrical release dates within the specified country.
+        /// ref: https://developers.themoviedb.org/3/movies/get-upcoming
+        /// </summary>
+        public async Task<UpcomingMoviesResponse> UpcomingMovies(int page)
+        {
+            //try GetGenres before get movies
+            await GetGenres();
+
+            var moviesResponse = await TmdbApi.GetApi().UpcomingMovies(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, page, Constants.DEFAULT_REGION);
+            return moviesResponse;
+        }
 
 
-            var refitSettings = new RefitSettings
-            {
-                ContentSerializer = new JsonContentSerializer(
-                    new JsonSerializerSettings
-                    {
-                        ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
-                    }
-            )
-            };
 
-            return RestService.For<ITmdbApi>(Constants.API_URL, refitSettings);
+        /// <summary>
+        /// Get the primary information about a movie.
+        /// ref: https://developers.themoviedb.org/3/movies/get-movie-details
+        /// </summary>
+        public async Task<Movie> GetMovie(int movieId)
+        {
+            //try GetGenres before get movies
+            await GetGenres();
+
+            var moviesResponse = await TmdbApi.GetApi().GetMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, movieId);
+            return moviesResponse;
+        }
+
+        /// <summary>
+        /// Search for movies.
+        /// ref: https://developers.themoviedb.org/3/search/search-movies 
+        /// </summary>
+        public async Task<SearchMovieResponse> SearchMovie(string query, int page)
+        {
+            //try GetGenres before get movies
+            await GetGenres();
+
+            var searchMovieResponse = await TmdbApi.GetApi().SearchMovie(Constants.API_KEY, Constants.DEFAULT_LANGUAGE, query, page);
+            return searchMovieResponse;
+        }
+
+        public List<Genre> GetGenresCached()
+        {
+            return GenresCached;
         }
     }
 }

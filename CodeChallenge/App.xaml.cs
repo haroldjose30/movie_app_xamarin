@@ -28,7 +28,7 @@ namespace CodeChallenge
 {
     public partial class App : Application
     {
-        public static List<Genre> Genres { get; private set; }
+
 
         public App()
         {
@@ -44,10 +44,9 @@ namespace CodeChallenge
             MainPage = new NavigationPage(homePage);
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
-            var genreResponse = await new MovieService().GetGenres();
-            Genres = genreResponse.Genres;
+           
         }
 
         protected override void OnSleep()

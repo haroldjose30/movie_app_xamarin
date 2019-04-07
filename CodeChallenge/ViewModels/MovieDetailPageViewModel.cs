@@ -15,9 +15,12 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CodeChallenge.Models;
+using CodeChallenge.Services;
 using CodeChallenge.ViewModels.Base;
+using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
@@ -31,7 +34,13 @@ namespace CodeChallenge.ViewModels
             PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
             BackdropPath = Utils.MovieImageUrlBuilder.BuildBackdropUrl(movie.BackdropPath);
             ReleaseDate = movie.ReleaseDate;
-            Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+
+
+            //make request to getGenres
+            var movieService = DependencyService.Get<IMovieService>();
+            List<Genre> genres = movieService.GetGenresCached();
+
+            Genres = string.Join(", ", movie.GenreIds.Select(m => genres?.First(g => g.Id == m)?.Name));
         }
 
         #region Properties Region
@@ -48,7 +57,7 @@ namespace CodeChallenge.ViewModels
         public string Overview { get; set; }
         public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
         public string BackdropPath { get => this.backdropPath; set => SetProperty(ref this.backdropPath, value); }
-        public DateTimeOffset ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; }
         public string Genres { get; set; }
 
         #endregion

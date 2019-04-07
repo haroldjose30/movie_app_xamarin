@@ -15,9 +15,11 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using CodeChallenge.Models;
+using CodeChallenge.Services;
 using CodeChallenge.ViewModels.Base;
 using Xamarin.Forms;
 
@@ -54,15 +56,20 @@ namespace CodeChallenge.ViewModels
                     this.Title = _movie.Title;
                     this.PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(_movie.PosterPath);
                     this.ReleaseDate = _movie.ReleaseDate;
-                    this.Genres = string.Join(", ", _movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+
+                    //make request to getGenres
+                    var movieService = DependencyService.Get<IMovieService>();
+                    List<Genre> genres = movieService.GetGenresCached();
+
+                    this.Genres = string.Join(", ", _movie.GenreIds.Select(m => genres?.First(g => g.Id == m)?.Name));
                 }
             }
         }
 
-
+      
         private string _posterPath;
         public string PosterPath { get => this._posterPath; set => SetProperty(ref this._posterPath, value); }
-        public DateTimeOffset ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; }
         public string Genres { get; set; }
 
 

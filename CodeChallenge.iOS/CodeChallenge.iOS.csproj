@@ -192,9 +192,6 @@
     <Folder Include="Renderers\" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Icon-60x60%402x.png" />
-    <BundleResource Include="Resources\error.png" />
-    <BundleResource Include="Resources\loading.jpg" />
-    <BundleResource Include="Resources\loadingAnimation.gif" />
+    <BundleResource Include="Resources\LaunchImage.png" />
   </ItemGroup>
 </Project>

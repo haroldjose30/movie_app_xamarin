@@ -12,13 +12,13 @@ namespace CodeChallenge.ViewModels
         ObservableCollection<IMovieItemViewModel> Movies { get; set; }
         int CurrentlyPage { get; }
         int TotalPages { get; }
-        DateTimeOffset? MinimumReleaseDate { get; }
-        DateTimeOffset? MaximumReleaseDate { get; }
+        string MinimumReleaseDate { get; }
+        string MaximumReleaseDate { get; }
         bool Loading { get; }
         string HeaderSubTitle { get; }
         string FooterTitle { get; }
 
-        void GetNextPageAsync();
+        void ExecuteNextPageRequest();
         IMovieItemViewModel ToMovieItemViewModel(Movie result);
         Task ItemSelected(IMovieItemViewModel movieItemViewModel);
     }
