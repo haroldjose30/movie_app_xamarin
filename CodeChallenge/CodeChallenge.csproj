@@ -23,5 +23,9 @@
     <Folder Include="Views\" />
     <Folder Include="Effects\" />
     <Folder Include="Models\Responses\" />
+    <Folder Include="ViewModels\Base\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Behaviors\" />
+    <Folder Include="CustomControls\" />
   </ItemGroup>
 </Project>

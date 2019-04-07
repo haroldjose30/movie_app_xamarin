@@ -15,72 +15,62 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using CodeChallenge.Models;
+using CodeChallenge.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
-    public class MovieItemViewModel : INotifyPropertyChanged
+    public class MovieItemViewModel : BaseViewModel, IMovieItemViewModel
     {
         public MovieItemViewModel(Movie movie)
         {
-            this.movie = movie;
+            this._movie = movie;
             Title = movie.Title;
             PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
             ReleaseDate = movie.ReleaseDate;
             Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+        }
 
-         }
 
-        public readonly Movie movie;
+        #region Properties Region
+
+        private Movie _movie;
+        public Movie movie { get => _movie; }
         private string posterPath;
-
-
-        public string Title { get; set; }
-
         public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
-
         public DateTimeOffset ReleaseDate { get; set; }
-
         public string Genres { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
 
-  
+        #region Methods/Commands Region
+
+
+        /// <summary>
+        /// When an item is tapped 
+        /// </summary>
+        /// <value>The tap command.</value>
         public Command TapCommand
         {
             get
             {
-                return new Command(() => onTappedCommand());
+                return new Command(async () =>
+                {
+                    //call view locator to  Show MovieDetailPage
+                    await PushAsync<MovieDetailPageViewModel>(movie);
+                });
             }
         }
 
 
-        private void onTappedCommand()
-        {
-            //todo: show MovieDetailPage
-            Debug.WriteLine("onTappedCommand:" + movie.Title);
-        }
+        #endregion
 
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
 
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
 
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

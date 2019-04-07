@@ -15,22 +15,15 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using CodeChallenge.Models;
-using CodeChallenge.Services;
+using CodeChallenge.ViewModels.Base;
 
 namespace CodeChallenge.ViewModels
 {
 
-    public class MovieDetailPageViewModel : INotifyPropertyChanged
+    public class MovieDetailPageViewModel : BaseViewModel
     {
-        private string posterPath;
-        private string backdropPath;
-
         public MovieDetailPageViewModel(Movie movie)
         {
             Title = movie.Title;
@@ -41,30 +34,19 @@ namespace CodeChallenge.ViewModels
             Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
         }
 
-        public string Title { get; set; }
+        #region Properties Region
+
+        private string posterPath;
+        private string backdropPath;
         public string Overview { get; set; }
         public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
-
         public string BackdropPath { get => this.backdropPath; set => SetProperty(ref this.backdropPath, value); }
-
         public DateTimeOffset ReleaseDate { get; set; }
-
         public string Genres { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
 
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
 
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

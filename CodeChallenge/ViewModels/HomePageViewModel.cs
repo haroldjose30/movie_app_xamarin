@@ -16,36 +16,33 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CodeChallenge.Models;
-using CodeChallenge.Models.Responses;
 using CodeChallenge.Services;
+using CodeChallenge.ViewModels.Base;
+using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
-    public class HomePageViewModel : INotifyPropertyChanged
+    public class HomePageViewModel : BaseViewModel, IHomePageViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:CodeChallenge.ViewModels.HomePageViewModel"/> class.
         /// </summary>
         /// <param name="movieService">Movie service.</param>
-        public HomePageViewModel(MovieService movieService)
+        public HomePageViewModel(IMovieService movieService)
         {
             this.movieService = movieService;
+            //todo: change to interface and not Concrect view model
             this.movies = new ObservableCollection<MovieItemViewModel>();
         }
 
         #region Properties region
 
-        private readonly MovieService movieService;
+        private readonly IMovieService movieService;
         private ObservableCollection<MovieItemViewModel> movies;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
 
         public ObservableCollection<MovieItemViewModel> Movies
         {
@@ -136,7 +133,7 @@ namespace CodeChallenge.ViewModels
         /// <value>The footer title.</value>
         public string FooterTitle
         {
-            get => $"Pages: {CurrentlyPage.ToString()}/{TotalPages.ToString()}";
+            get => $"Page loaded: {CurrentlyPage.ToString()}/{TotalPages.ToString()}";
         }
 
         private readonly string FooterTitlePropertyName = "FooterTitle";
@@ -147,42 +144,52 @@ namespace CodeChallenge.ViewModels
         #endregion
 
 
-        #region Methods Region
+        #region Methods/Commands Region
 
-        public async Task OnAppearing()
+        public override Task OnAppearing()
         {
+            base.OnAppearing();
 
             //verify if movies was loaded
-            if (movies.Count==0)
+            if (movies.Count == 0)
             {
                 //start CurrentlyPage counter
                 CurrentlyPage = 0;
-                GetNextPageOfMovies();
+                GetNextPageAsync();
             }
 
+            return Task.FromResult(0);
+
         }
+
 
         /// <summary>
         /// Gets the next page of movies from backend.
         /// </summary>
-        public void GetNextPageOfMovies()
+        public async void GetNextPageAsync()
         {
-            //increase page
-            CurrentlyPage++;
+
+            //verify if all pages was loaded
+            if (CurrentlyPage > 0 && CurrentlyPage == TotalPages)
+                return;
 
             //get next page
-            GetMoviesFromPageAsync(CurrentlyPage);
+            if (await GetUpcomingMovies(CurrentlyPage+1))
+                //increase page counter
+                CurrentlyPage++;
         }
 
         /// <summary>
         /// Load movies from backend using movieservices
         /// </summary>
-        /// <param name="currentlyPage">pass number page is loaded</param>
-        private async void GetMoviesFromPageAsync(int currentlyPage)
+        /// <param name="page">pass number page is loaded</param>
+        private async Task<Boolean> GetUpcomingMovies(int page)
         {
             //todo: network improvements: verify if is connected on the internet
             //todo: network improvements: cache data and try retreave from cache first
 
+            //if doing exit
+            if (Loading) return false;
 
             try
             {
@@ -190,52 +197,61 @@ namespace CodeChallenge.ViewModels
                 Loading = true;
 
                 //call back end
-                UpcomingMoviesResponse upcomingMoviesResponse = await this.movieService.UpcomingMovies(currentlyPage);
+                var upcomingMoviesResponse = await this.movieService.UpcomingMovies(page);
 
-                //update properties on view model who needed be updates on view
-                TotalPages = upcomingMoviesResponse.TotalPages;
-                MinimumReleaseDate = upcomingMoviesResponse.Dates.Minimum;
-                MaximumReleaseDate = upcomingMoviesResponse.Dates.Maximum;
 
-                //add movies on the list
-                foreach (var movie in upcomingMoviesResponse.Results)
+                //verify if exists new movie
+                if (upcomingMoviesResponse != null && upcomingMoviesResponse.Results.Count>0)
                 {
-                    Movies.Add(ToMovieItemViewModel(movie));
+                    //update properties on view model who needed be updates on view
+                    TotalPages = upcomingMoviesResponse.TotalPages;
+                    MinimumReleaseDate = upcomingMoviesResponse.Dates.Minimum;
+                    MaximumReleaseDate = upcomingMoviesResponse.Dates.Maximum;
+
+                    //add movies on the list
+                    foreach (var movie in upcomingMoviesResponse.Results)
+                    {
+                        Movies.Add(ToMovieItemViewModel(movie));
+                    }
+
+                    return true;
                 }
+
+
             }
             finally
             {
                 Loading = false;
             }
 
-        }
+            return false;
 
-        public Task OnDisappearing() => Task.CompletedTask;
+        }
 
         public MovieItemViewModel ToMovieItemViewModel(Movie result) => new MovieItemViewModel(result);
 
-
-        #endregion
-
-
-        #region ViewModel Region
-
-
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        public async Task ItemSelected(IMovieItemViewModel movieItemViewModel)
         {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-            {
-                return false;
-            }
-
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
+            //Call ViewLocator
+            await PushAsync<MovieDetailPageViewModel>(movieItemViewModel.movie);
         }
 
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        /// <summary>
+        /// Load Movies from Backend
+        /// </summary>
+        /// <value>The load command.</value>
+        public ICommand LoadCommand
+        {
+            get
+            {
+                //try load next page
+                return new Command(() => GetNextPageAsync());
+            }
+        }
+
 
         #endregion
+
 
 
 

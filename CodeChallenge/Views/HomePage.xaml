@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ContentPage
+<base:BasePage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:CodeChallenge.Views.Base;assembly=CodeChallenge"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:views="clr-namespace:CodeChallenge.Views"
+    xmlns:CustomControls="clr-namespace:CodeChallenge.CustomControls;assembly=CodeChallenge"
     x:Class="CodeChallenge.Views.HomePage"
     Visual= "Material"
     Title="CineLovers"
@@ -16,38 +18,39 @@
             <Label Text="Upcoming Movies" />
             <Label Text="{Binding HeaderSubTitle}" FontSize="Small"/>
         </StackLayout>
-        <ListView
+        
+        <CustomControls:InfiniteScrollListView 
+            LoadCommand="{Binding LoadCommand}"
             VerticalOptions="Fill"
             ItemsSource="{Binding Movies}"
-            CachingStrategy="RecycleElement"
             HasUnevenRows="true"
             SelectionMode="Single"
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
-            SeparatorVisibility="None"
-            ItemSelected="Handle_ItemSelected"
-            ItemAppearing="Handle_ItemAppearing">
-             <ListView.Footer> 
-                    <ActivityIndicator IsRunning="{Binding Loading}" 
-                                       d:IsRunning="true"
-                                       HeightRequest="50"
-                                       WidthRequest="50"
-                                       />
+            SeparatorVisibility="None">
+            
+            <x:Arguments>
+                <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+            </x:Arguments>
+            
+            <ListView.Footer> 
+                <ActivityIndicator IsRunning="{Binding Loading}"/>
             </ListView.Footer>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <views:MovieItemView />
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+            
+        </CustomControls:InfiniteScrollListView>
         
-          <StackLayout VerticalOptions="End"
-                       Padding="10,5,0,5"
-                       Orientation="Horizontal" 
-                       BackgroundColor="#cccccc">
+        <StackLayout VerticalOptions="End"
+                     Padding="10,5,0,5"
+                     Orientation="Horizontal"
+                     BackgroundColor="#cccccc">
             <Label Text="{Binding FooterTitle}"/>
-                  
-          </StackLayout>
+        </StackLayout>
     
     </StackLayout>
-</ContentPage>
+</base:BasePage>

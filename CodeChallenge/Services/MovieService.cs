@@ -23,10 +23,12 @@ using CodeChallenge.Models.Responses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Refit;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(CodeChallenge.Services.MovieService))]
 namespace CodeChallenge.Services
 {
-    public class MovieService
+    public class MovieService : IMovieService
     {
         public Task<GenreResponse> GetGenres() => GetApi().GetGenres(Constants.API_KEY, Constants.DEFAULT_LANGUAGE);
 
@@ -36,12 +38,25 @@ namespace CodeChallenge.Services
 
         private ITmdbApi GetApi()
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
-            };
+            /*obsolete  Warning resolved
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
+                };
 
-            var refitSettings = new RefitSettings { JsonSerializerSettings = jsonSerializerSettings };
+                var refitSettings = new RefitSettings { JsonSerializerSettings = jsonSerializerSettings };
+            */
+
+
+            var refitSettings = new RefitSettings
+            {
+                ContentSerializer = new JsonContentSerializer(
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
+                    }
+            )
+            };
 
             return RestService.For<ITmdbApi>(Constants.API_URL, refitSettings);
         }

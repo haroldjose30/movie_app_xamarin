@@ -21,6 +21,7 @@ using CodeChallenge.Views;
 using CodeChallenge.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CodeChallenge.ViewModels;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CodeChallenge
@@ -33,7 +34,14 @@ namespace CodeChallenge
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new HomePage());
+
+            //todo: change to view locations to improve this code
+            var homePage = new HomePage();
+            //create  Service
+            var movieService = DependencyService.Get<IMovieService>();
+            var homePageViewModel = new HomePageViewModel(movieService);
+            homePage.BindingContext = homePageViewModel;
+            MainPage = new NavigationPage(homePage);
         }
 
         protected override async void OnStart()

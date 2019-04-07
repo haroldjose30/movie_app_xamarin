@@ -14,22 +14,15 @@
 //   Defines the MovieDetailPage.xaml type.
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using CodeChallenge.Models;
-using CodeChallenge.ViewModels;
-using Xamarin.Forms;
+using CodeChallenge.Views.Base;
 
 namespace CodeChallenge.Views
 {
-    public partial class MovieDetailPage : ContentPage
+    public partial class MovieDetailPage : BasePage
     {
-        private MovieDetailPageViewModel movieDetailViewModel;
-        public MovieDetailPage(Movie movie)
+        public MovieDetailPage()
         {
             InitializeComponent();
-            this.movieDetailViewModel = new MovieDetailPageViewModel(movie);
-            BindingContext = this.movieDetailViewModel;
         }
     }
 }

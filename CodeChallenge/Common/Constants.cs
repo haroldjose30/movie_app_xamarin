@@ -20,6 +20,7 @@ namespace CodeChallenge.Common
     public static class Constants
     {
         public const string API_URL = "https://api.themoviedb.org/3";
+        //todo: protect api secrets 
         public const string API_KEY = "0a683ece7e6b9453cd7b586aee41c797";
         public const string DEFAULT_LANGUAGE = "";
         public const string DEFAULT_REGION = "";
