@@ -55,6 +55,7 @@ namespace CodeChallenge.ViewModels
                 {
                     this.Title = _movie.Title;
                     this.PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(_movie.PosterPath);
+                    this.BackdropPath = Utils.MovieImageUrlBuilder.BuildBackdropUrl(_movie.BackdropPath);
                     this.ReleaseDate = _movie.ReleaseDate;
 
                     //make request to getGenres
@@ -69,6 +70,14 @@ namespace CodeChallenge.ViewModels
       
         private string _posterPath;
         public string PosterPath { get => this._posterPath; set => SetProperty(ref this._posterPath, value); }
+
+        private string _backdropPath;
+        public string BackdropPath { get => this._backdropPath; set => SetProperty(ref this._backdropPath, value); }
+
+
+
+
+
         public string ReleaseDate { get; set; }
         public string Genres { get; set; }
 

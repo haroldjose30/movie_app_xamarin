@@ -7,96 +7,105 @@
     x:Class="CodeChallenge.Views.MovieDetailPage"
     Visual= "Material"
     Icon="icon.png"
-    Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}"
+    Padding="{x:OnPlatform Android=0, iOS='0,0,0,0'}"
     Title="{Binding Title}">
     <ContentPage.Content>
-    <ScrollView>
+    <ScrollView x:Name="ScrollView">
             
-        <StackLayout >
+             <!-- trying to make image background
+                <RelativeLayout x:Name="ControlsLayout">
                 
-                    
-              
-            <Image 
-                Aspect="AspectFill"
-                HorizontalOptions="FillAndExpand" 
-                VerticalOptions="FillAndExpand"
-                Source="{Binding BackdropPath}"
-                    
-                >
-            </Image>                 
-                
-             
-        
-             <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
-                       HasShadow="{x:OnPlatform Android=true, iOS=true}"
-                       BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
-                       Padding="{x:OnPlatform Android=0, iOS=6}"
-                       Margin="4"
-                       x:Name="frame">
-                    <Grid RowSpacing="0" x:Name="grid">
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        
-                        
-                        <Image 
-                            Grid.RowSpan="3"
-                            Aspect="Fill"
-                            HorizontalOptions="Center" 
-                            VerticalOptions="Start"
-                            Source="{Binding PosterPath}"
-                            HeightRequest="200"
-                            WidthRequest="150"
-                            >
-                        </Image>               
-                        
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            FontSize="Medium"
-                            TextColor="Black"
-                            FontAttributes="Bold"
-                            Text="{Binding Genres}">
-                        </Label>
-                        
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            FontSize="Small"
-                            FontAttributes="Italic"
-                            TextColor="Black"
-                            VerticalTextAlignment="End"
-                            Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
-                        
-                        
-                        <Label
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            FontSize="Small"
-                            FontAttributes="None"
-                            TextColor="Black"
-                            VerticalTextAlignment="Start"
-                            Text="{Binding Overview}"/>
-                        
-                    </Grid>
-                </Frame>        
-        
-        
-        
-       
-                
-              
+               
+                    <Image Source="{Binding BackdropPath}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           Aspect="AspectFit"
+                           Opacity="0.3"
+                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, ElementName=ScrollView,Property=Width, Factor=1, Constant=0 }"
+                           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, ElementName=ScrollView, Property=Height,Factor=1, Constant=0}" />
+                -->
             
-                
-            </StackLayout>    
+            
+                        <Grid RowSpacing="0" x:Name="Grid" 
+                              HorizontalOptions="FillAndExpand" 
+                              VerticalOptions="FillAndExpand"
+                              >
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                           
+                     
+                    
+                            <Frame CornerRadius="{x:OnPlatform Android=3, iOS=3}"
+                               HasShadow="true"
+                               BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
+                               Padding="{x:OnPlatform Android=6, iOS=6}"
+                               Margin="0"
+                               x:Name="frame"
+                               Grid.Row="0"
+                               Grid.RowSpan="3"
+                               HorizontalOptions="StartAndExpand" 
+                               VerticalOptions="StartAndExpand"
+                                   >
+                            
+                                <Image 
+                                    Aspect="AspectFill"
+                                    HorizontalOptions="Center" 
+                                    VerticalOptions="Center"
+                                    Source="{Binding PosterPath}"
+                                    HeightRequest="200"
+                                    WidthRequest="150"
+                                    />
+                        
+                            </Frame>
+                    
+                    
+                           <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontSize="Large"
+                                FontAttributes="Italic"
+                                TextColor="Black"
+                                VerticalTextAlignment="Start"
+                                Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                            
+                            
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="Small"
+                                FontAttributes="Italic"
+                                TextColor="Black"
+                                VerticalTextAlignment="Start"
+                                Text="{Binding Overview}"/>
+                            
+                         
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                FontSize="Medium"
+                                TextColor="Black"
+                                FontAttributes="Bold"
+                                VerticalTextAlignment="End"
+                                Text="{Binding Genres}">
+                            </Label>
+                            
+                        </Grid>
+                           
+               <!-- 
+            </RelativeLayout>
+                -->
+
+            
+
         </ScrollView>
     </ContentPage.Content>
 </base:BasePage>

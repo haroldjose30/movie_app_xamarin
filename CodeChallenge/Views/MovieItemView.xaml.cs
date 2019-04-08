@@ -52,7 +52,7 @@ namespace CodeChallenge.Views
 
             if (BindingContext is MovieItemViewModel movieItemViewModel)
             {
-                image.Source = movieItemViewModel.PosterPath;
+                image.Source = movieItemViewModel.BackdropPath;
             }
 
         }

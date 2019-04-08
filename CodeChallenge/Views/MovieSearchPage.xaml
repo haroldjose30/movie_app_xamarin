@@ -8,17 +8,17 @@
     xmlns:CustomControls="clr-namespace:CodeChallenge.CustomControls;assembly=CodeChallenge"
     x:Class="CodeChallenge.Views.MovieSearchPage"
     Visual= "Material"
-    Icon="icon"
     Title="{Binding SearchText}"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>
+        
         <CustomControls:InfiniteScrollListView 
             LoadCommand="{Binding LoadCommand}"
             VerticalOptions="Fill"
             ItemsSource="{Binding Movies}"
-            HasUnevenRows="false"
+            HasUnevenRows="true"
             SelectionMode="None"
-            RowHeight="100"
+            RowHeight="150"
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
             SeparatorVisibility="None">
@@ -27,8 +27,9 @@
                 <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
             </x:Arguments>
             
+            
             <ListView.Footer> 
-                <ActivityIndicator IsRunning="{Binding Loading}"/>
+               
             </ListView.Footer>
             
             <ListView.ItemTemplate>
@@ -39,12 +40,9 @@
             
         </CustomControls:InfiniteScrollListView>
         
-        <StackLayout VerticalOptions="End"
-                     Padding="10,5,0,5"
-                     Orientation="Horizontal"
-                     BackgroundColor="#cccccc">
-            <Label Text="{Binding FooterTitle}"/>
-        </StackLayout>
+      
+        
+         <ActivityIndicator IsRunning="{Binding Loading}" IsVisible="{Binding Loading}" VerticalOptions="End"/>
     
     </StackLayout>
 </base:BasePage>

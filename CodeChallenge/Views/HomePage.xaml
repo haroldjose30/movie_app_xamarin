@@ -9,9 +9,12 @@
     x:Class="CodeChallenge.Views.HomePage"
     Visual= "Material"
     Icon="icon"
-    Title="CINELOVERS"
+    Title="CINELOVERS - Upcoming Movies"
     Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
     <StackLayout>
+        <!--
+          <Label Text="Upcoming Movies" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+        -->
           <SearchBar 
                     x:Name="searchBar"
                     Placeholder="What is your favorite movie?" 
@@ -20,12 +23,7 @@
                     BackgroundColor="Transparent"
                     Text="{Binding SearchText}"/>
         
-        <StackLayout 
-            Padding="10,5,0,5" 
-            VerticalOptions="Start">
-            <Label Text="Upcoming Movies" />
-            <Label Text="{Binding HeaderSubTitle}" FontSize="Small"/>
-        </StackLayout>
+       
        
       
         
@@ -33,9 +31,9 @@
             LoadCommand="{Binding LoadCommand}"
             VerticalOptions="Fill"
             ItemsSource="{Binding Movies}"
-            HasUnevenRows="false"
+            HasUnevenRows="true"
             SelectionMode="None"
-            RowHeight="100"
+            RowHeight="300"
             VerticalScrollBarVisibility="Never"
             HorizontalScrollBarVisibility="Never"
             SeparatorVisibility="None">
@@ -44,12 +42,9 @@
                 <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
             </x:Arguments>
             
-             <ListView.Header> 
-                
-            </ListView.Header>
             
             <ListView.Footer> 
-                <ActivityIndicator IsRunning="{Binding Loading}"/>
+               
             </ListView.Footer>
             
             <ListView.ItemTemplate>
@@ -60,12 +55,9 @@
             
         </CustomControls:InfiniteScrollListView>
         
-        <StackLayout VerticalOptions="End"
-                     Padding="10,5,0,5"
-                     Orientation="Horizontal"
-                     BackgroundColor="#cccccc">
-            <Label Text="{Binding FooterTitle}"/>
-        </StackLayout>
+      
+        
+         <ActivityIndicator IsRunning="{Binding Loading}" IsVisible="{Binding Loading}" VerticalOptions="End"/>
     
     </StackLayout>
 </base:BasePage>

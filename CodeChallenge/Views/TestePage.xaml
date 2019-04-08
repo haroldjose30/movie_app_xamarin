@@ -7,5 +7,12 @@
     BackgroundImage=""
     >
     <ContentPage.Content>
+        
+        <ListView
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="true"
+        ></ListView>
+        
     </ContentPage.Content>
 </ContentPage>
