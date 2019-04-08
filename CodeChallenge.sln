@@ -9,6 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeChallenge.UITests", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeChallenge", "CodeChallenge\CodeChallenge.csproj", "{4E041D26-6FFE-456F-A5ED-AC294C5BBFED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{163A9166-6DDB-4C5E-8A54-01F5F94FDFEF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Screenshots\Android_01_HomePage_Landscape.png = Screenshots\Android_01_HomePage_Landscape.png
+		Screenshots\Android_01_HomePage_Portrait.png = Screenshots\Android_01_HomePage_Portrait.png
+		Screenshots\Android_02_DetailPage_Landscape.png = Screenshots\Android_02_DetailPage_Landscape.png
+		Screenshots\Android_02_DetailPage_Portrait.png = Screenshots\Android_02_DetailPage_Portrait.png
+		Screenshots\IOS_01_HomePage_Landcape.png = Screenshots\IOS_01_HomePage_Landcape.png
+		Screenshots\IOS_01_HomePage_Portrait.png = Screenshots\IOS_01_HomePage_Portrait.png
+		Screenshots\IOS_02_DetailPage_Landscape.png = Screenshots\IOS_02_DetailPage_Landscape.png
+		Screenshots\IOS_02_DetailPage_Portrait.png = Screenshots\IOS_02_DetailPage_Portrait.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

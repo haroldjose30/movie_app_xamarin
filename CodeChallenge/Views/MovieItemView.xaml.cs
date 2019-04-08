@@ -15,15 +15,46 @@
 // </summary>
 //  --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using CodeChallenge.ViewModels;
 using Xamarin.Forms;
 
 namespace CodeChallenge.Views
 {
     public partial class MovieItemView : ViewCell
     {
+
+        Image image = null;
+
         public MovieItemView()
         {
             InitializeComponent();
+
+            //todo: I don't know if this code is the better aproach to solve this problem, 
+            //but the website reference return only one image to view
+            image = this.FindByName<Image>("ImagePosterPath");
+
+
+            //above is the website reference example
+            //image = new Image();
+            //View = image;
+        }
+
+        //Issue: Images may disappear upon scrolling on the Android ListView #9
+        //References:   https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/listview/performance
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+
+            //here to prevent showing old images occasionally
+            image.Source = null;
+
+
+            if (BindingContext is MovieItemViewModel movieItemViewModel)
+            {
+                image.Source = movieItemViewModel.BackdropPath;
+            }
+
         }
     }
 }

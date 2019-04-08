@@ -3,38 +3,68 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effects="clr-namespace:CodeChallenge.Effects"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="CodeChallenge.Views.MovieItemView">
-    <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
-           HasShadow="{x:OnPlatform Android=true, iOS=false}"
+     <Frame CornerRadius="{x:OnPlatform Android=0, iOS=3}"
+           HasShadow="{x:OnPlatform Android=true, iOS=true}"
            BorderColor="{x:OnPlatform Android=Transparent, iOS=Gray}"
            Padding="{x:OnPlatform Android=0, iOS=6}"
-           Margin="4">
-        <Grid RowSpacing="0">
+           Margin="4"
+           x:Name="frame"
+            
+            >
+        <Grid RowSpacing="2" x:Name="grid" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            
+             <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TapCommand}" />
+                </Grid.GestureRecognizers>       
+            
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+           
             <Image
-                Grid.RowSpan="3"
-                Aspect="AspectFit"
-                Source="{Binding PosterPath}"/>
-            <Label
                 Grid.Row="0"
-                Grid.Column="1"
+                Grid.Column="0"
+                Grid.RowSpan="3"
+                x:Name="ImagePosterPath"
+                Aspect="AspectFill"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Source="{Binding BackdropPath}"
+                Opacity="0.7">
+            </Image>
+
+            
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
                 FontSize="Medium"
                 FontAttributes="Bold"
                 TextColor="Black"
-                VerticalTextAlignment="Start"
+                VerticalTextAlignment="End"
                 Text="{Binding Title}" >
                 <Label.Effects>
                     <effects:MultiLineLabelEffect Lines="1" />
                 </Label.Effects>
             </Label>
+            
+              
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                FontSize="Small"
+                FontAttributes="Bold"
+                TextColor="Black"
+                VerticalTextAlignment="End"
+                Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+            
+          <!--  
             <Label
                 Grid.Row="1"
                 Grid.Column="1"
@@ -45,14 +75,8 @@
                     <effects:MultiLineLabelEffect Lines="2" />
                 </Label.Effects>
             </Label>
-            <Label
-                Grid.Row="2"
-                Grid.Column="1"
-                FontSize="Micro"
-                FontAttributes="Italic"
-                TextColor="Black"
-                VerticalTextAlignment="End"
-                Text="{Binding ReleaseDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+            -->
+          
         </Grid>
     </Frame>
 </ViewCell>

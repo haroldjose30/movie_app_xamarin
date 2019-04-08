@@ -32,7 +32,7 @@ namespace CodeChallenge.Droid.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             base.OnElementChanged(e);
-            if (e.NewElement.HasShadow)
+             if (e.NewElement != null && e.NewElement.HasShadow)
             {
                 UpdateElevation();
             }
@@ -41,11 +41,12 @@ namespace CodeChallenge.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == "Elevation")
+            if (e.PropertyName == "Elevation" || e.PropertyName == "CardElevation")
             {
                 UpdateElevation();
             }
         }
+
 
         private void UpdateElevation()
         {

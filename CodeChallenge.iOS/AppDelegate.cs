@@ -27,6 +27,10 @@ namespace CodeChallenge.iOS
         {
             Xamarin.Calabash.Start();
             global::Xamarin.Forms.Forms.Init();
+
+            //initialize Material design template from nuget
+            global::Xamarin.Forms.FormsMaterial.Init();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

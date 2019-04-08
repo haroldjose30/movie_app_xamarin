@@ -28,6 +28,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -96,13 +97,11 @@
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Effects\MultiLineLabelEffect.cs" />
+    <Compile Include="Renderers\CustomFrameRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon1024.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon180.png">
@@ -117,9 +116,6 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon120.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80.png">
       <Visible>false</Visible>
     </ImageAsset>
@@ -127,9 +123,6 @@
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon40.png">
@@ -141,6 +134,35 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage~iphone-320x480.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage~iphone_640x960.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-568h%402x~iphone_640x1136.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-1242%403x~iphoneXsMax-portrait_1242x2688.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-828%402x~iphoneXr-portrait_828x1792.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-2688%403x~iphoneXsMax-landscape_2688x1242.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-1792%402x~iphoneXr-landscape_1792x828.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-1125%403x~iphoneX-portrait_1125x2436.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-2436%403x~iphoneX-landscape_2436x1125.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-1242%403x~iphone6s-portrait_1242x2208.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-750%402x~iphone6-portrait_750x1334.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-1242%403x~iphone6s-landscape_2208x1242.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Portrait%402x~ipad_2048x2732.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Portrait~ipad_768x1024.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Portrait%402x~ipad_1536x2008.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Portrait%402x~ipad_1536x2048.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Landscape~ipad_1024x748.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Landscape%402x~ipad_2048x1496.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Landscape~ipad_1024x768.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\LaunchImage-Landscape%402x~ipad_2048x1536.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-marketing-1024x1024.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20x20%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29%401x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40x40%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-60x60%402x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-60x60%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -149,10 +171,13 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.293080" />
     <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.21.7" />
     <PackageReference Include="Refit">
-      <Version>4.6.58</Version>
+      <Version>4.6.99</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms.Visual.Material">
+      <Version>3.6.0.293080</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -164,5 +189,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Effects\" />
+    <Folder Include="Renderers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\LaunchImage.png" />
   </ItemGroup>
 </Project>

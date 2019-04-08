@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base:BasePage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:CodeChallenge.Views.Base;assembly=CodeChallenge"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:views="clr-namespace:CodeChallenge.Views"
+    xmlns:CustomControls="clr-namespace:CodeChallenge.CustomControls;assembly=CodeChallenge"
+    x:Class="CodeChallenge.Views.MovieSearchPage"
+    Visual= "Material"
+    Title="{Binding SearchText}"
+    Padding="{x:OnPlatform Android=16, iOS='16,20,16,16'}">
+    <StackLayout>
+        
+        <CustomControls:InfiniteScrollListView 
+            LoadCommand="{Binding LoadCommand}"
+            VerticalOptions="Fill"
+            ItemsSource="{Binding Movies}"
+            HasUnevenRows="true"
+            SelectionMode="None"
+            RowHeight="150"
+            VerticalScrollBarVisibility="Never"
+            HorizontalScrollBarVisibility="Never"
+            SeparatorVisibility="None">
+            
+            <x:Arguments>
+                <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+            </x:Arguments>
+            
+            
+            <ListView.Footer> 
+               
+            </ListView.Footer>
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <views:MovieItemView />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </CustomControls:InfiniteScrollListView>
+        
+      
+        
+         <ActivityIndicator IsRunning="{Binding Loading}" IsVisible="{Binding Loading}" VerticalOptions="End"/>
+    
+    </StackLayout>
+</base:BasePage>

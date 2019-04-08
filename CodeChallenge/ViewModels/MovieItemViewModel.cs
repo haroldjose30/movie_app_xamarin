@@ -16,47 +16,98 @@
 //  --------------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using CodeChallenge.Models;
+using CodeChallenge.Services;
+using CodeChallenge.ViewModels.Base;
+using Xamarin.Forms;
 
 namespace CodeChallenge.ViewModels
 {
-    public class MovieItemViewModel : INotifyPropertyChanged
-    {
-        private string posterPath;
 
+    public class MovieItemViewModel : BaseViewModel, IMovieItemViewModel
+    {
         public MovieItemViewModel(Movie movie)
         {
-            Title = movie.Title;
-            PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(movie.PosterPath);
-            ReleaseDate = movie.ReleaseDate;
-            Genres = string.Join(", ", movie.GenreIds.Select(m => App.Genres?.First(g => g.Id == m)?.Name));
+            this.movie = movie;
         }
 
-        public string Title { get; set; }
+        #region Properties Region
 
-        public string PosterPath { get => this.posterPath; set => SetProperty(ref this.posterPath, value); }
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
+        }
 
-        public DateTimeOffset ReleaseDate { get; set; }
+        private Movie _movie;
 
+        public Movie movie
+        {
+            get { return _movie; }
+            set
+            {
+                SetProperty(ref _movie, value);
+
+                if (_movie != null)
+                {
+                    this.Title = _movie.Title;
+                    this.PosterPath = Utils.MovieImageUrlBuilder.BuildPosterUrl(_movie.PosterPath);
+                    this.BackdropPath = Utils.MovieImageUrlBuilder.BuildBackdropUrl(_movie.BackdropPath);
+                    this.ReleaseDate = _movie.ReleaseDate;
+
+                    //make request to getGenres
+                    var movieService = DependencyService.Get<IMovieService>();
+                    List<Genre> genres = movieService.GetGenresCached();
+
+                    this.Genres = string.Join(", ", _movie.GenreIds.Select(m => genres?.First(g => g.Id == m)?.Name));
+                }
+            }
+        }
+
+      
+        private string _posterPath;
+        public string PosterPath { get => this._posterPath; set => SetProperty(ref this._posterPath, value); }
+
+        private string _backdropPath;
+        public string BackdropPath { get => this._backdropPath; set => SetProperty(ref this._backdropPath, value); }
+
+
+
+
+
+        public string ReleaseDate { get; set; }
         public string Genres { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        #endregion
+
+
+        #region Methods/Commands Region
+
+
+        /// <summary>
+        /// When an item is tapped 
+        /// </summary>
+        /// <value>The tap command.</value>
+        public Command TapCommand
         {
-            if (EqualityComparer<T>.Default.Equals(field, value))
+            get
             {
-                return false;
+                return new Command(async () =>
+                {
+                    //call view locator to  Show MovieDetailPage
+                    await PushAsync<MovieDetailPageViewModel>(movie);
+                });
             }
-
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
 
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        #endregion
+
+
+
     }
 }

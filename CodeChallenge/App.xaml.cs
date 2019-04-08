@@ -21,25 +21,32 @@ using CodeChallenge.Views;
 using CodeChallenge.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CodeChallenge.ViewModels;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace CodeChallenge
 {
     public partial class App : Application
     {
-        public static List<Genre> Genres { get; private set; }
+
 
         public App()
         {
             InitializeComponent();
 
-            MainPage = new HomePage();
+
+            //todo: change to view locations to improve this code
+            var homePage = new HomePage();
+            //create  Service
+            var movieService = DependencyService.Get<IMovieService>();
+            var homePageViewModel = new HomePageViewModel(movieService);
+            homePage.BindingContext = homePageViewModel;
+            MainPage = new NavigationPage(homePage);
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
-            var genreResponse = await new MovieService().GetGenres();
-            Genres = genreResponse.Genres;
+           
         }
 
         protected override void OnSleep()
